@@ -1,43 +1,37 @@
-import turtle
+import pygame
+import sys
 
-# Window settings
-screen = turtle.Screen()
-screen.title("Pong")
-screen.bgcolor("black")
-screen_width = 1280
-screen_height = 760
-screen.setup(screen_width, screen_height)
-screen.tracer(0)
+pygame.init()
+clock = pygame.time.Clock()
 
-# Shared paddle properties
-speed = 0
-shape = "square"
-color = "white"
-width = 5
-length = 1
-y_position = 0
-x_position = 600
+# SETTINGS
+FPS = 60
+BACKGROUND_COLOR = pygame.Color('grey12')
+SCREEN_WIDTH = 1024
+SCREEN_HEIGHT = 768
+SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption('Pong')
 
-# Paddle A
-paddle_a = turtle.Turtle()
-paddle_a.speed(speed)
-paddle_a.shape(shape)
-paddle_a.color(color)
-paddle_a.shapesize(width, length)
-paddle_a.penup()
-paddle_a.goto(x_position, y_position)
+BALL = pygame.Rect(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 15, 30, 30)
+PLAYER = pygame.Rect(SCREEN_WIDTH - 20, SCREEN_HEIGHT / 2 - 70, 10, 140)
+OPPONENT = pygame.Rect(10, SCREEN_HEIGHT / 2 - 70, 10, 140)
 
-# Paddle B
-paddle_b = turtle.Turtle()
-paddle_b.speed(speed)
-paddle_b.shape(shape)
-paddle_b.color(color)
-paddle_b.shapesize(width, length)
-paddle_b.penup()
-paddle_b.goto(-x_position, y_position)
-
-# Ball
-
-# Main loop
+# MAIN LOOP
 while True:
-    screen.update()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    SCREEN.fill(BACKGROUND_COLOR)
+
+    # DRAW ELEMENTS
+    ELEMENTS_COLOR = (200, 200, 200)
+    pygame.draw.rect(SCREEN, ELEMENTS_COLOR, PLAYER)
+    pygame.draw.rect(SCREEN, ELEMENTS_COLOR, OPPONENT)
+    pygame.draw.ellipse(SCREEN, ELEMENTS_COLOR, BALL)
+    pygame.draw.aaline(SCREEN, ELEMENTS_COLOR, (SCREEN_WIDTH / 2, 0), (SCREEN_WIDTH / 2, SCREEN_HEIGHT))
+
+    pygame.display.flip()
+    clock.tick(FPS)
